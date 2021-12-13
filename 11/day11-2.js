@@ -67,9 +67,10 @@ let printOctopi = map => {
 }
 
 let flashes = 0;
-let steps = 100;
+let steps = 0;
 printOctopi(octopi);
-while (steps) {
+haveNotAllFlashed = true;
+while (haveNotAllFlashed) {
     // increase energy level by 1
     octopi.forEach((o, _) => o.addEnergy());
     
@@ -82,17 +83,19 @@ while (steps) {
         flashes += readyToFlash.length;
         readyToFlash = Array.from(octopi.values()).filter(o => o.energy > 9 && !o.flashed);
     }
-    Array.from(octopi.values()).filter(o => o.flashed).forEach(o => {
+    const flashedList =  Array.from(octopi.values()).filter(o => o.flashed);
+    if (flashedList.length === octopi.size) {
+        haveNotAllFlashed = false;
+        console.log(steps + 1);
+    }
+
+    flashedList.forEach(o => {
         o.resetEnergy();
         o.flashed = false;
     });
     // any octopus that has flashed during the step has its energy set to 0
-    // if (!(steps % 10)) printOctopi(octopi);
-    steps--;
+    if (steps > 192) printOctopi(octopi);
+    steps++;
 }
 
 console.log(flashes);
-
-
-
-

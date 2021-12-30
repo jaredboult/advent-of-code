@@ -18,5 +18,10 @@
   "homepage": "https://github.com/jaredboult/advent_of_code#readme",
   "dependencies": {
     "heap": "^0.2.7"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
   }
 }

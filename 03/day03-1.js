@@ -1,42 +1,43 @@
 const fs = require('fs');
-const input = fs.readFileSync("input.txt").toString().split("\n");
+
+const input = fs.readFileSync('input.txt').toString().split('\n');
 
 console.log(input);
 
-const array = input.map(x => x.split("").map(Number));
+const array = input.map((x) => x.split('').map(Number));
 
 const counts = [];
-for (let i = 0; i < array[0].length; i++) {
+for (let i = 0; i < array[0].length; i += 1) {
     let sum = 0;
-    for (let j = 0; j < array.length; j++) {
+    for (let j = 0; j < array.length; j += 1) {
         sum += array[j][i];
     }
     counts.push(sum);
 }
 
-const gamma_bits = [];
-const epilson_bits = [];
-for (const sum of counts) {
-    const g_value = sum > array.length/2 ? 1 : 0;
-    const e_value = sum > array.length/2 ? 0 : 1;
-    gamma_bits.push(g_value);
-    epilson_bits.push(e_value);
-}
+const gammaBits = [];
+const epilsonBits = [];
+counts.forEach((sum) => {
+    const gValue = sum > array.length / 2 ? 1 : 0;
+    const eValue = sum > array.length / 2 ? 0 : 1;
+    gammaBits.push(gValue);
+    epilsonBits.push(eValue);
+});
 
-console.log("Gamma in binary\n", gamma_bits);
-console.log("Epsilon in binary\n", epilson_bits);
+console.log('Gamma in binary\n', gammaBits);
+console.log('Epsilon in binary\n', epilsonBits);
 
-let convertToDecimal = (array) => {
+const convertToDecimal = (arr) => {
     let num = 0;
-    for (let i = 0; i < array.length; i++){
-        num += array[i] * 2**(array.length - 1 - i);
+    for (let i = 0; i < arr.length; i += 1) {
+        num += arr[i] * 2 ** (arr.length - 1 - i);
     }
     return num;
-}
+};
 
-let gamma = convertToDecimal(gamma_bits);
-let epilson = convertToDecimal(epilson_bits);
+const gamma = convertToDecimal(gammaBits);
+const epilson = convertToDecimal(epilsonBits);
 
 console.log(gamma);
 console.log(epilson);
-console.log(gamma * epilson)
+console.log(gamma * epilson);

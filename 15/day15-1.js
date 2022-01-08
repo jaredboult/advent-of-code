@@ -6,11 +6,11 @@ class Node {
         this.neighbours = [];
     }
 
-    addNeighbours(map, maxXIndex, maxYIndex){
-        if(this.y > 0) this.neighbours.push(map.get(`x: ${this.x} y: ${this.y-1}`));
-        if(this.y < maxYIndex) this.neighbours.push(map.get(`x: ${this.x} y: ${this.y+1}`));
-        if(this.x > 0) this.neighbours.push(map.get(`x: ${this.x-1} y: ${this.y}`));
-        if(this.x < maxXIndex) this.neighbours.push(map.get(`x: ${this.x+1} y: ${this.y}`));
+    addNeighbours(map, maxXIndex, maxYIndex) {
+        if (this.y > 0) this.neighbours.push(map.get(`x: ${this.x} y: ${this.y - 1}`));
+        if (this.y < maxYIndex) this.neighbours.push(map.get(`x: ${this.x} y: ${this.y + 1}`));
+        if (this.x > 0) this.neighbours.push(map.get(`x: ${this.x - 1} y: ${this.y}`));
+        if (this.x < maxXIndex) this.neighbours.push(map.get(`x: ${this.x + 1} y: ${this.y}`));
     }
 
     getKey() {
@@ -20,8 +20,8 @@ class Node {
 
 const createNodes = (input) => {
     const nodes = new Map();
-    for (let y = 0; y < input.length; y++){
-        for (let x = 0; x < input[0].length; x++){
+    for (let y = 0; y < input.length; y += 1) {
+        for (let x = 0; x < input[0].length; x += 1) {
             const distance = Number(input[y][x]);
             const key = `x: ${x} y: ${y}`;
             const node = new Node(x, y, distance);
@@ -29,7 +29,7 @@ const createNodes = (input) => {
         }
     }
     return nodes;
-}
+};
 
 const dijkstra = (graph, source, target) => {
     const unvisited = new Map();
@@ -39,40 +39,40 @@ const dijkstra = (graph, source, target) => {
     });
     source.distance = 0;
     source.risk = 0;
-    while(unvisited.size){
+    while (unvisited.size) {
         console.log(unvisited.size);
-        const v =  Array
-                    .from(unvisited
-                        .values())
-                        .sort((a, b) => b.distance - a.distance)
-                        .pop();
+        const v = Array
+            .from(unvisited
+                .values())
+            .sort((a, b) => b.distance - a.distance)
+            .pop();
         if (v === target) return;
         unvisited.delete(v.getKey());
-        v.neighbours.forEach(u => {
+        v.neighbours.forEach((u) => {
             if (!unvisited.has(u.getKey())) return;
             const alt = v.distance + v.risk;
             if (alt < u.distance) u.distance = alt;
         });
     }
-}
+};
 
 const hrstart = process.hrtime();
 const fs = require('fs');
+
 const input = fs
     .readFileSync('input.txt')
     .toString()
-    .split("\n")
-    .map(row => row.split(''));
+    .split('\n')
+    .map((row) => row.split(''));
 const maxYIndex = input.length - 1;
 const maxXIndex = input[maxYIndex].length - 1;
 
 const allNodes = createNodes(input);
-allNodes.forEach(n => n.addNeighbours(allNodes, maxXIndex, maxYIndex));
+allNodes.forEach((n) => n.addNeighbours(allNodes, maxXIndex, maxYIndex));
 
 const sourceNode = allNodes.get('x: 0 y: 0');
 const targetNode = allNodes.get(`x: ${maxXIndex} y: ${maxYIndex}`);
 dijkstra(allNodes, sourceNode, targetNode);
-
 
 const lowestDistance = targetNode.distance + targetNode.risk;
 console.log(lowestDistance);

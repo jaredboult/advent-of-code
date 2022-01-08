@@ -1,11 +1,4 @@
 const fs = require('fs');
-const input = fs.readFileSync("input.txt").toString().split("\n");
-
-const draw = input[0].split(",").map(Number);
-const boards = splitBoards(input.slice(2));
-const marks = storeMarks(boards);
-
-playGame(draw);
 
 function splitBoards(arr) {
     const perGroup = 6;
@@ -13,14 +6,12 @@ function splitBoards(arr) {
     return new Array(numGroups)
         .fill('')
         .map((_, i) => arr
-            .slice(i * perGroup, (i+1) * perGroup - 1)
-            .map(x => x
+            .slice(i * perGroup, (i + 1) * perGroup - 1)
+            .map((x) => x
                 .trim()
                 .replace(/  +/g, ' ')
-                .split(" ")
-                .map(Number)
-            )
-        );
+                .split(' ')
+                .map(Number)));
 }
 
 function storeMarks(arr) {
@@ -43,15 +34,14 @@ function playGame(nums) {
 
 function checkForNumber(num, board) {
     return board
-        .map(row => row
-            .map(col => col === num)
-        );
+        .map((row) => row
+            .map((col) => col === num));
 }
 
 function updateMarks(marks, update) {
     const newMarks = [...marks];
-    for (let y = 0; y < newMarks.length; y++) {
-        for (let x = 0; x < newMarks[y].length; x++) {
+    for (let y = 0; y < newMarks.length; y += 1) {
+        for (let x = 0; x < newMarks[y].length; x += 1) {
             newMarks[y][x] = newMarks[y][x] || update[y][x];
         }
     }
@@ -59,24 +49,31 @@ function updateMarks(marks, update) {
 }
 
 function checkForBingo(marks) {
-    for (const row of marks) {
-        if (row.reduce((a, i) => a && i, true)) return true;
+    const bingoRow = marks.some((row) => row.reduce((prev, curr) => prev && curr, true));
+    if (bingoRow) return true;
+    for (let i = 0; i < marks[0].length; i += 1) {
+        const col = marks.map((x) => x[i]);
+        if (col.reduce((p, c) => p && c, true)) return true;
     }
-    for (let i = 0; i < marks[0].length; i++) {
-        const col = marks.map(x => x[i]);
-        if (col.reduce((a, i) => a && i, true)) return true;
-    }
+    return false;
 }
 
 function scoreBoard(index, num) {
     const bingoBoard = [...boards[index]];
     const marksBoard = [...marks[index]];
     let total = 0;
-    for (let y = 0; y < bingoBoard.length; y++) {
-        for (let x = 0; x < bingoBoard[y].length; x++) {
+    for (let y = 0; y < bingoBoard.length; y += 1) {
+        for (let x = 0; x < bingoBoard[y].length; x += 1) {
             total += marksBoard[y][x] ? 0 : bingoBoard[y][x];
         }
     }
     return total * num;
 }
 
+const input = fs.readFileSync('input.txt').toString().split('\n');
+
+const draw = input[0].split(',').map(Number);
+const boards = splitBoards(input.slice(2));
+const marks = storeMarks(boards);
+
+playGame(draw);

@@ -1,27 +1,30 @@
 const fs = require('fs');
 
-const input = fs.readFileSync("input.txt").toString().split("\n");
+const input = fs.readFileSync('input.txt').toString().split('\n');
 
-let depth = 0, horizontal = 0, aim = 0;
+let depth = 0;
+let horizontal = 0;
+let aim = 0;
 
-for (const command of input) {
-    const both = command.split(" ");
+input.forEach((x) => {
+    const both = x.split(' ');
     const direction = both[0];
-    const amount = parseInt(both[1]);
+    const amount = parseInt(both[1], 10);
     switch (direction) {
-        case "down":
-            aim += amount;
-            break;
-        case "up":
-            aim -= amount;
-            break;
-        case "forward":
-            horizontal += amount;
-            depth += aim * amount;
-            break;
+    case 'down':
+        aim += amount;
+        break;
+    case 'up':
+        aim -= amount;
+        break;
+    case 'forward':
+        horizontal += amount;
+        depth += aim * amount;
+        break;
+    default:
     }
-}
+});
 
-console.log("horizontal = ", horizontal);
-console.log("depth = ", depth);
-console.log("answer = ", horizontal * depth);
+console.log(`horizontal = ${horizontal}`);
+console.log(`depth = ${depth}`);
+console.log(`answer = ${horizontal * depth}`);

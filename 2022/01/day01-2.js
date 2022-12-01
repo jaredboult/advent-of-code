@@ -8,4 +8,4 @@ const totals = input.map((x) => {
 });
 
 const sorted = totals.sort((a, b) => b - a);
-console.log(sorted[0]);
+console.log(sorted[0] + sorted[1] + sorted[2]);

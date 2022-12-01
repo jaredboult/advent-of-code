@@ -1,9 +1,9 @@
-const fs = require("fs");
+import { readBasicInput } from "../helperFunctions.ts";
 
-const input = fs.readFileSync("input1.txt").toString().split("\n\n");
+const input = readBasicInput().split("\n\n");
 
 const totals = input.map((x) => {
-    const values = x.split("\n").map((x) => parseInt(x, 10));
+    const values = x.split("\n").map((x) => Number(x));
     return values.reduce((acc, curr) => acc + curr);
 });
 

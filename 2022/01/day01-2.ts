@@ -4,7 +4,7 @@ const input = readBasicInput().split("\n\n");
 
 const totals = input.map((x) => {
   const values = x.split("\n").map((x) => Number(x));
-  return values.reduce((acc, curr) => acc + curr);
+  return sum(values);
 });
 
 const sorted = sortNumbers(totals);

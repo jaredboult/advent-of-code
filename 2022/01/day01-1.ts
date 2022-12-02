@@ -1,11 +1,11 @@
-import { readBasicInput } from "../helperFunctions.ts";
+import { readBasicInput, sortNumbers, sum } from "../helperFunctions.ts";
 
 const input = readBasicInput().split("\n\n");
 
 const totals = input.map((x) => {
-    const values = x.split("\n").map((x) => Number(x));
-    return values.reduce((acc, curr) => acc + curr);
+  const values = x.split("\n").map((x) => Number(x));
+  return sum(values);
 });
 
-const sorted = totals.sort((a, b) => b - a);
+const sorted = sortNumbers(totals);
 console.log(sorted[0]);

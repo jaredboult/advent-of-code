@@ -3,9 +3,10 @@ export const readBasicInput = (filename = "input.txt") => {
   return decoder.decode(Deno.readFileSync(filename));
 };
 
-export const sum = (arr: number[]) => arr.reduce((acc, curr) => acc + curr);
+export const sum = (arr: number[]) => arr.reduce((acc, curr) => acc + curr, 0);
 
-export const product = (arr: number[]) => arr.reduce((acc, curr) => acc * curr);
+export const product = (arr: number[]) =>
+  arr.reduce((acc, curr) => acc * curr, 1);
 
 export const sortNumbers = (arr: number[], descending = true) => {
   return descending ? arr.sort((a, b) => b - a) : arr.sort((a, b) => a - b);

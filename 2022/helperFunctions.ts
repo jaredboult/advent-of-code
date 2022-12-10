@@ -1,4 +1,9 @@
-export const readBasicInput = (filename = "input.txt") => {
+export const readInput = (filename = "./input.txt") => {
+  const decoder = new TextDecoder("utf-8");
+  return decoder.decode(Deno.readFileSync(filename));
+};
+
+export const readTestInput = (filename = "./input-test.txt") => {
   const decoder = new TextDecoder("utf-8");
   return decoder.decode(Deno.readFileSync(filename));
 };

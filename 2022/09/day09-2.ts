@@ -1,4 +1,4 @@
-import { readInput } from "../helperFunctions.ts";
+import { printGrid, readInput } from "../helperFunctions.ts";
 
 function solveProblem() {
   const inputs = readInput()
@@ -160,19 +160,6 @@ function printTestSpace(head: Position, knots: Position[]) {
   grid[head.y + 5][head.x + 12] = "H";
 
   printGrid(grid);
-}
-
-function printGrid(grid: string[][]) {
-  const height = grid.length;
-  const width = grid[0].length;
-  for (let i = height - 1; i >= 0; i--) {
-    let row = "";
-    for (let j = 0; j < width; j++) {
-      row = row.concat(grid[i][j], " ");
-    }
-    console.log(row);
-  }
-  console.log("\n");
 }
 
 solveProblem();
